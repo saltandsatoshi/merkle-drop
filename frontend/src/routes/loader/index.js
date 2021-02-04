@@ -1,5 +1,5 @@
 import React from "react";
-import Spinner from "../../assets/logos/robot-spinner.gif";
+import Spinner from "../../assets/logos/salty-spinner.gif";
 
 import "./style.scss";
 

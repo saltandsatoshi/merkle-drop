@@ -24,7 +24,7 @@ export default class Routes extends Component {
               <Route
                 path={"/404"}
                 render={() =>
-                window.location.replace("https://shop.metafactory.ai")
+                window.location.replace("https://saltandsatoshi.com")
                 }
               />
               <Redirect to={"/404"} />

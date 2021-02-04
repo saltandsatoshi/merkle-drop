@@ -1,7 +1,7 @@
 {
-  "name": "robot-distributions-frontend",
+  "name": "merkle-drop",
   "version": "0.1.0",
-  "author": "Uni",
+  "author": "Carl Farterson",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.0",

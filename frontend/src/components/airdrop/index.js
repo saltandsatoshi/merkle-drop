@@ -4,10 +4,10 @@ import { toast } from "react-toastify";
 import { ConnectButton } from "./elements";
 
 // * ABI
-import { ROBOTABI } from "../../data/abi/ROBOTABI";
+import { SALTYABI } from "../../data/abi/SALTYABI";
 
 // * CONSTANTS
-import { ROBOTAddress } from "../../data/constants/constants";
+import { SALTYAdress } from "../../data/constants/constants";
 import { merkle } from "../../data/constants/merkle";
 
 import "./style.scss";
@@ -30,10 +30,10 @@ class Airdrop extends Component {
       isAirdropLive: false,
       countdownString: "0:0:0",
     };
-    this.ROBOTABI = ROBOTABI;
+    this.SALTYABI = SALTYABI;
     this.merkle = merkle;
-    this.ROBOTAddress = ROBOTAddress;
-    this.ROBOTContract = null;
+    this.SALTYAdress = SALTYAdress;
+    this.SALTYContract = null;
     this.airdropContract = null;
   }
 
@@ -124,9 +124,9 @@ class Airdrop extends Component {
       if (x === 1) {
         this.setState({ account: accounts[0].toString(), isConnected: true });
 
-        this.ROBOTContract = new this.web3.eth.Contract(
-          this.ROBOTABI,
-          this.ROBOTAddress
+        this.SALTYContract = new this.web3.eth.Contract(
+          this.SALTYABI,
+          this.SALTYAdress
         );
         this.airdropContract = new this.web3.eth.Contract(
           this.merkle.contractABI,
@@ -141,9 +141,9 @@ class Airdrop extends Component {
       } else if (x === 4) {
         this.setState({ account: accounts[0].toString(), isConnected: true });
 
-        this.ROBOTContract = new this.web3.eth.Contract(
-          this.ROBOTABI,
-          this.ROBOTAddress
+        this.SALTYContract = new this.web3.eth.Contract(
+          this.SALTYABI,
+          this.SALTYAdress
         );
         this.airdropContract = new this.web3.eth.Contract(
           this.merkle.contractABI,
@@ -183,8 +183,8 @@ class Airdrop extends Component {
 
     this.setState({ percentage: percentageToday, day: daysPassed });
 
-    if (this.airdropContract != null && this.ROBOTContract != null) {
-      this.ROBOTContract.methods
+    if (this.airdropContract != null && this.SALTYContract != null) {
+      this.SALTYContract.methods
         .balanceOf(this.merkle.contractAddress)
         .call()
         .then((result) => {
@@ -309,7 +309,7 @@ class Airdrop extends Component {
       <div className="max-width-container">
         <div className="airdrop-container">
           <div className="airdrop-title">
-            <div className="title-text">ROBOT Airdrop</div>
+            <div className="title-text">$SALTY Airdrop</div>
             <ConnectButton
               account={this.state.account}
               setConnection={this.setConnection}
@@ -320,7 +320,7 @@ class Airdrop extends Component {
             {this.state.day}
           </div>
           <div className="airdrop-subtitle">
-            <span>Unclaimed ROBOT: </span>
+            <span>Unclaimed $SALTY: </span>
             {this.state.unclaimed.toLocaleString()}
           </div>
           <div className="airdrop-subtitle">
@@ -362,7 +362,7 @@ class Airdrop extends Component {
                     ) : (
                       <>
                         <div className="claim-item">
-                          <div className="title">Claimable ROBOT</div>
+                          <div className="title">Claimable $SALTY</div>
                           <div className="value">
                             {this.state.claimable.toLocaleString()}
                           </div>
@@ -404,8 +404,8 @@ class Airdrop extends Component {
             </div>
           </div>
         </div>
-        <div className="robot-texture-bg" />
-        <div className="robot-logo-bg" />
+        <div className="salty-texture-bg" />
+        <div className="salty-logo-bg" />
       </div>
     );
   }

@@ -1,4 +1,4 @@
-export const ROBOTABI = [
+export const SALTYABI = [
   {
     "inputs": [],
     "stateMutability": "nonpayable",

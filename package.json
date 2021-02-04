@@ -1,8 +1,8 @@
 {
-  "name": "robot-distributions",
+  "name": "merkle-drop",
   "version": "1.0.0",
   "description": "",
-  "authors": "MetaFactory, Uni and Carl",
+  "authors": "Carl and Uni",
   "license": "MIT",
   "main": "index.ts",
   "scripts": {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/logos/robot-plain.png";
+import Logo from "../../assets/logos/salty-plain.png";
 import { Menu, X, ChevronDown, ChevronUp } from "react-feather";
 import { buy, resources, social } from "./items";
 import "./style.scss";

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Logo from "../../assets/logos/robot-plain.png";
+import Logo from "../../assets/logos/salty-plain.png";
 import { medias } from "./medias";
 import ReactTypingEffect from "react-typing-effect";
 import "./style.scss";
