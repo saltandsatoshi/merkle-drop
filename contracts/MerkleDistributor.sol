@@ -12,9 +12,9 @@ contract MerkleDistributor is IMerkleDistributor {
     // This is a packed array of booleans.
     mapping(uint256 => uint256) private claimedBitMap;
 
-    constructor(address token_, bytes32 merkleRoot_) public {
-        token = token_;
-        merkleRoot = merkleRoot_;
+    constructor(address _token, bytes32 _merkleRoot) public {
+        token = _token;
+        merkleRoot = _merkleRoot;
     }
 
     function isClaimed(uint256 index) public view override returns (bool) {
@@ -32,6 +32,7 @@ contract MerkleDistributor is IMerkleDistributor {
     }
 
     function claim(uint256 index, address account, uint256 amount, bytes32[] calldata merkleProof) external override {
+        require(msg.sender == account, 'claim: Only account may withdraw'); // self-request only
         require(!isClaimed(index), 'MerkleDistributor: Drop already claimed.');
 
         // Verify the merkle proof.
