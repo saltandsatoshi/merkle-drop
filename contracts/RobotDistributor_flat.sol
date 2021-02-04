@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
+pragma solidity >=0.6.0 <0.8.0;
 
 /**
  * @dev Interface of the ERC20 standard as defined in the EIP.
@@ -108,7 +108,7 @@ library MerkleProof {
     }
 }
 
-pragma solidity ^0.7.0;
+pragma solidity >=0.6.0 <0.8.0;
 
 // Allows anyone to claim a token if they exist in a merkle root.
 interface IMerkleDistributor {
@@ -125,27 +125,18 @@ interface IMerkleDistributor {
     // This event is triggered whenever a call to #claim succeeds.
     event Claimed(uint256 index, address account, uint256 amount);
     
-    // function newDrop(bytes32 _merkleRoot) external;
-    // event NewDrop();
-    
-    // function cancelDrop(uint256 _address) external;
-    // event CancelDrop();
 }
 
-pragma solidity ^0.7.0;
+pragma solidity >=0.6.0 <0.8.0;
 
 contract MerkleDistributor is IMerkleDistributor {
 
-    address public owner;
     address public immutable override token;
     bytes32 public override merkleRoot;
     
     mapping(uint256 => uint256) private claimedBitMap;
 
-    constructor(
-        address _token,
-        bytes32 _merkleRoot
-    ) {
+    constructor(address _token,bytes32 _merkleRoot) {
         token = _token;
         merkleRoot = _merkleRoot;
     }
