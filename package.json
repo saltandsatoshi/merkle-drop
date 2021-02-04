@@ -1,0 +1,56 @@
+{
+  "name": "robot-distributions",
+  "version": "1.0.0",
+  "description": "",
+  "authors": "MetaFactory, Uni and Carl",
+  "license": "MIT",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node ./index.ts"
+  },
+  "devDependencies": {
+    "@openzeppelin/contracts": "3.1.0",
+    "@types/chai": "^4.2.6",
+    "@types/lodash": "^4.14.165",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^14.14.3",
+    "axios": "^0.20.0",
+    "chai": "^4.2.0",
+    "commander": "^6.1.0",
+    "ethereum-waffle": "^3.0.0",
+    "ethereumjs-util": "^7.0.4",
+    "mocha": "^6.2.2",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.0",
+    "solc": "0.6.11",
+    "ts-node": "^8.5.4",
+    "ts-node": "^9.0.0",
+    "typescript": "^3.7.3",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "graphql": "^15.4.0",
+    "graphql-request": "^3.3.0",
+    "lodash": "^4.17.20",
+    "node-fetch": "^2.6.1",
+    "web3": "^1.3.0",
+    "web3-utils": "^1.3.0"
+  },
+  "scripts": {
+    "precompile": "rimraf ./build/",
+    "compile": "waffle",
+    "pretest": "yarn compile",
+    "test": "mocha",
+
+    "generate:example": "ts-node scripts/generate-merkle-root.ts --input scripts/claims/claims_example.json",
+    "generate:test": "ts-node scripts/generate-merkle-root.ts --input scripts/claims/claims_test.json",
+    "generate:prod": "ts-node scripts/generate-merkle-root.ts --input scripts/claims/claims_prod.json",
+
+    "verify:example": "ts-node scripts/verify-merkle-root.ts --input scripts/result/result_example.json",
+    "verify:test": "ts-node scripts/verify-merkle-root.ts --input scripts/result/result_test.json",
+    "verify:prod": "ts-node scripts/verify-merkle-root.ts --input scripts/result/result_prod.json",
+    
+    "prepublishOnly": "yarn test"
+  }
+}
