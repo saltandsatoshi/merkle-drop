@@ -70,7 +70,7 @@ export default class Header extends Component {
                 this.setState({ isExpanded: null, isItemOpen: null });
                 if (c.title === "Litepaper") {
                   window.open(
-                    "https://metafactory.ai",
+                    "http://saltandsatoshi.com/",
                     "_blank"
                   );
                 }
@@ -154,7 +154,7 @@ export default class Header extends Component {
             <div className="logo-img">
               <img src={Logo} alt="logo" />
             </div>
-            <div className="logo-title">MetaFactory</div>
+            <div className="logo-title">Salt&Satoshi</div>
           </a>
           {this.state.isSmall || this.state.isMedium ? <XSNav /> : <LGNav />}
         </div>

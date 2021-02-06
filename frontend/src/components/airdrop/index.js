@@ -7,7 +7,7 @@ import { ConnectButton } from "./elements";
 import { SALTYABI } from "../../data/abi/SALTYABI";
 
 // * CONSTANTS
-import { SALTYAdress } from "../../data/constants/constants";
+import { SALTYAddress } from "../../data/constants/constants";
 import { merkle } from "../../data/constants/merkle";
 
 import "./style.scss";
@@ -32,7 +32,7 @@ class Airdrop extends Component {
     };
     this.SALTYABI = SALTYABI;
     this.merkle = merkle;
-    this.SALTYAdress = SALTYAdress;
+    this.SALTYAddress = SALTYAddress;
     this.SALTYContract = null;
     this.airdropContract = null;
   }
@@ -126,7 +126,7 @@ class Airdrop extends Component {
 
         this.SALTYContract = new this.web3.eth.Contract(
           this.SALTYABI,
-          this.SALTYAdress
+          this.SALTYAddress
         );
         this.airdropContract = new this.web3.eth.Contract(
           this.merkle.contractABI,
@@ -143,7 +143,7 @@ class Airdrop extends Component {
 
         this.SALTYContract = new this.web3.eth.Contract(
           this.SALTYABI,
-          this.SALTYAdress
+          this.SALTYAddress
         );
         this.airdropContract = new this.web3.eth.Contract(
           this.merkle.contractABI,
@@ -404,8 +404,8 @@ class Airdrop extends Component {
             </div>
           </div>
         </div>
-        <div className="salty-texture-bg" />
-        <div className="salty-logo-bg" />
+        {/* <div className="salty-texture-bg" />
+        <div className="salty-logo-bg" /> */}
       </div>
     );
   }

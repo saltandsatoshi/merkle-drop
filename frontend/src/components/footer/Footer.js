@@ -42,7 +42,7 @@ class Footer extends Component {
             </div>
           </div>
           <div className="bottom">
-            <a href="https://metafactory.ai">
+            <a href="http://saltandsatoshi.com/">
               <img src={Logo} alt="" className="logo" />
             </a>
             <div className="footer-typer-container">
