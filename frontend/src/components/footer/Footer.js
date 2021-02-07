@@ -9,7 +9,7 @@ class Footer extends Component {
     return (
       <div className="footer-bar">
         <div className="footer-container">
-          <div className="upper">
+          {/* <div className="upper">
             <div className="navigation">
               <div className="item">
                 <div className="header">Applications</div>
@@ -40,7 +40,7 @@ class Footer extends Component {
                 ))}
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="bottom">
             <a href="http://saltandsatoshi.com/">
               <img src={Logo} alt="" className="logo" />

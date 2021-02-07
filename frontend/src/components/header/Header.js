@@ -127,8 +127,8 @@ export default class Header extends Component {
           <div
             className={`xs-nav-menu ${this.state.isExpanded ? "expanded" : ""}`}
           >
-            { this.getLink(buy) }
-            { this.getAccordion("resources", resources) }
+            {/* { this.getLink(buy) } */}
+            {/* { this.getAccordion("resources", resources) } */}
             { this.getAccordion("social", social) }
           </div>
         </>
@@ -139,8 +139,8 @@ export default class Header extends Component {
       return (
         <>
           <div className="lg-nav-menu">
-            { this.getLink(buy) }
-            { this.getAccordion("resources", resources) }
+            {/* { this.getLink(buy) } */}
+            {/* { this.getAccordion("resources", resources) } */}
             { this.getAccordion("social", social) }
           </div>
         </>

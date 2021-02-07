@@ -9,6 +9,7 @@ export const resources = [
 ];
 
 export const social = [
-  { to: "https://discord.gg/syk4SWmUPu", title: "Discord" },
-  { to: "https://twitter.com/MetaFactory", title: "Twitter" },
+  { to: "https://discord.gg/ruzPsVSZ", title: "Discord" },
+  { to: "https://t.me/saltandsats", title: "Telegram" },
+  { to: "https://twitter.com/saltandsatoshi", title: "Twitter" },
 ];
