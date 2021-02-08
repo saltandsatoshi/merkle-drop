@@ -1,6 +1,6 @@
-export const buy = {
-	to: 'https://balancer.exchange/#/swap/ether/0xfb5453340c03db5ade474b27e68b6a9c6b2823eb',
-	title: 'Buy',
+export const contract = {
+	to: 'https://rinkeby.etherscan.io/address/0xd1666190bE4fC9842b12397047B9B8Ad3A5D48c4#code',
+	title: 'Contract',
 };
 
 export const resources = [

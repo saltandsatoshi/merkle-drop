@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/logos/salty-plain.png";
 import { Menu, X, ChevronDown, ChevronUp } from "react-feather";
-import { buy, resources, social } from "./items";
+import { contract, resources, social } from "./items";
 import "./style.scss";
 
 export default class Header extends Component {
@@ -50,33 +50,35 @@ export default class Header extends Component {
     let title = item[0].toUpperCase() + item.substring(1);
     return (
       <div className="accordion-container">
-        <div
-          className="accordion-toggle"
+        <button
+          className="salty-button"
           onClick={() => this.onToggleAccordion(item)}
         >
-          {title}
-          {this.state.isItemOpen === item ? <ChevronUp /> : <ChevronDown />}
-        </div>
+          <h3>
+            {title}
+            {/* {this.state.isItemOpen === item ? <ChevronUp /> : <ChevronDown />} */}
+          </h3>
+        </button>
         <div
           className={`accordion-menu ${
             this.state.isItemOpen === item ? "expanded" : ""
           }`}
         >
           {content.map((c, index) => (
-            <a
+            <a className="salty-button"
               key={index}
               href={c.to}
               onClick={() => {
                 this.setState({ isExpanded: null, isItemOpen: null });
-                if (c.title === "Litepaper") {
-                  window.open(
-                    "http://saltandsatoshi.com/",
-                    "_blank"
-                  );
-                }
+                // if (c.title === "Litepaper") {
+                //   window.open(
+                //     "http://saltandsatoshi.com/",
+                //     "_blank"
+                //   );
+                // }
               }}
             >
-              {c.title}
+              <h3>{c.title}</h3>
             </a>
           ))}
         </div>
@@ -106,12 +108,15 @@ export default class Header extends Component {
     return (
       <a
         href={item.to}
-        className="menu-item"
+        // className="menu-item"
         onClick={() => {
           this.setState({ isExpanded: null, isItemOpen: null });
         }}
+        // style={{whiteSpace: 'nowrap'}}
       >
-        {item.title}
+        <button className="salty-button">
+          <h3>{item.title}</h3>
+        </button>
       </a>
     );
   };
@@ -127,7 +132,7 @@ export default class Header extends Component {
           <div
             className={`xs-nav-menu ${this.state.isExpanded ? "expanded" : ""}`}
           >
-            {/* { this.getLink(buy) } */}
+            { this.getLink(contract) }
             {/* { this.getAccordion("resources", resources) } */}
             { this.getAccordion("social", social) }
           </div>
@@ -139,7 +144,7 @@ export default class Header extends Component {
       return (
         <>
           <div className="lg-nav-menu">
-            {/* { this.getLink(buy) } */}
+            { this.getLink(contract) }
             {/* { this.getAccordion("resources", resources) } */}
             { this.getAccordion("social", social) }
           </div>

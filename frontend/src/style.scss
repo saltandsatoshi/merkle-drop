@@ -1,14 +1,30 @@
 @import "styles/breakpoints.scss";
 @import "assets/fonts/fonts.scss";
 
+.with-cool-font {
+  font-family: "Montserrat";
+}
+
+.salty-button {
+  color: #aaa;
+  background: rgba(0,0,0,0);
+  min-width: 200px;
+}
+
 body {
   margin: 0;
   font-family: "OpenSans" !important;
-  background: linear-gradient(
-    -90deg,
-    rgba(6, 0, 38, 1),
-    rgba(57, 52, 161, 0.94)
-  );
+  // background: linear-gradient(
+  //   -90deg,
+  //   rgba(6, 0, 38, 1),
+  //   rgba(57, 52, 161, 0.94)
+  // );
+  // background: linear-gradient(
+  //   -90deg,
+  //   rgba(6, 0, 38, 1),
+  //   rgba(0, 0, 0, 0.94)
+  // );
+  background: black
 }
 
 :focus {

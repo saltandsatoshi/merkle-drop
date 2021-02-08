@@ -3,7 +3,15 @@
 
 .footer-bar {
   width: 100%;
-  background-color: #272727;
+
+  // background-color: #272727;
+
+  background: linear-gradient(
+        0deg,
+        rgba(6, 0, 38, 1),
+        rgba(0, 0, 0, 0.94)
+      );
+
   display: flex;
   position: relative;
   justify-content: center;
@@ -189,6 +197,9 @@
     & .footer-typer-container {
       display: block;
       margin-left: 15px;
+
+      
+
       & .footer-typer-cursor {
         color: white;
       }

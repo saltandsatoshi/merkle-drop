@@ -46,7 +46,7 @@ class Footer extends Component {
               <img src={Logo} alt="" className="logo" />
             </a>
             <div className="footer-typer-container">
-              <ReactTypingEffect
+              {/* <ReactTypingEffect
                 text={[
                   "Welcome",
                 ]}
@@ -70,7 +70,7 @@ class Footer extends Component {
                     </div>
                   );
                 }}
-              />
+              /> */}
             </div>
           </div>
         </div>
