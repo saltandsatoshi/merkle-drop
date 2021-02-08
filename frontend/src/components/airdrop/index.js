@@ -316,10 +316,6 @@ class Airdrop extends Component {
             />
           </div>
           <div className="airdrop-subtitle">
-            <span>Airdrop Day: </span>
-            {this.state.day}
-          </div>
-          <div className="airdrop-subtitle">
             <span>Unclaimed $SALTY: </span>
             {this.state.unclaimed.toLocaleString()}
           </div>
