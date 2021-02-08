@@ -1,19 +1,16 @@
 {
   "name": "merkle-drop",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Merkle drop for $SALTY initial distribution",
   "authors": "Carl and Uni",
   "license": "MIT",
   "main": "index.ts",
-  "scripts": {
-    "start": "ts-node ./index.ts"
-  },
   "devDependencies": {
     "@openzeppelin/contracts": "3.1.0",
     "@types/chai": "^4.2.6",
     "@types/lodash": "^4.14.165",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^14.14.3",
+    "@types/node": "^14.14.25",
     "axios": "^0.20.0",
     "chai": "^4.2.0",
     "commander": "^6.1.0",
@@ -23,10 +20,8 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.0",
     "solc": "0.6.11",
-    "ts-node": "^8.5.4",
     "ts-node": "^9.0.0",
-    "typescript": "^3.7.3",
-    "typescript": "^4.0.3"
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
@@ -42,15 +37,9 @@
     "compile": "waffle",
     "pretest": "yarn compile",
     "test": "mocha",
-
-    "generate:example": "ts-node scripts/generate-merkle-root.ts --input scripts/claims/claims_example.json",
-    "generate:test": "ts-node scripts/generate-merkle-root.ts --input scripts/claims/claims_test.json",
-    "generate:prod": "ts-node scripts/generate-merkle-root.ts --input scripts/claims/claims_prod.json",
-
-    "verify:example": "ts-node scripts/verify-merkle-root.ts --input scripts/result/result_example.json",
-    "verify:test": "ts-node scripts/verify-merkle-root.ts --input scripts/result/result_test.json",
-    "verify:prod": "ts-node scripts/verify-merkle-root.ts --input scripts/result/result_prod.json",
-    
+    "start": "ts-node ./index.ts",
+    "generate": "ts-node scripts/generate-merkle-root.ts --input ./claims.json",
+    "verify": "ts-node scripts/verify-merkle-root.ts --input ./result.json",
     "prepublishOnly": "yarn test"
   }
 }
