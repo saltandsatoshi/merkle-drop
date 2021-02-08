@@ -54,6 +54,7 @@ function Connect() {
     return (<>
       <div id="buttons02" className="style1 buttons" style={{display: "flex", justifyContent: 'space-around'}}>
         <button className="salty-button"
+            style={{overflowX: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}
             onClick={event => {
               event.stopPropagation()
               return false

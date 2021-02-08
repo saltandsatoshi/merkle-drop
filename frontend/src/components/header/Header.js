@@ -132,9 +132,14 @@ export default class Header extends Component {
           <div
             className={`xs-nav-menu ${this.state.isExpanded ? "expanded" : ""}`}
           >
-            { this.getLink(contract) }
-            {/* { this.getAccordion("resources", resources) } */}
-            { this.getAccordion("social", social) }
+            <div
+            style={{display: 'flex', flexDirection: 'column', alignContent: 'space-between'}}
+            >
+              { this.getLink(contract) }
+              {/* { this.getAccordion("resources", resources) } */}
+              { this.getAccordion("social", social) }
+            </div>
+            
           </div>
         </>
       );
@@ -155,11 +160,11 @@ export default class Header extends Component {
     return (
       <div className="header-container">
         <div className="header-content">
-          <a href="https://metafactory.ai" className="logo-container">
+          <a href="https://saltandsatoshi.com/" className="logo-container">
             <div className="logo-img">
               <img src={Logo} alt="logo" />
             </div>
-            <div className="logo-title">Salt&Satoshi</div>
+            <div className="logo-title"><h3>Salt&Satoshi</h3></div>
           </a>
           {this.state.isSmall || this.state.isMedium ? <XSNav /> : <LGNav />}
         </div>
