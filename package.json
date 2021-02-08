@@ -38,8 +38,8 @@
     "pretest": "yarn compile",
     "test": "mocha",
     "start": "ts-node ./index.ts",
-    "generate": "ts-node scripts/generate-merkle-root.ts --input scripts/claims.json",
-    "verify": "ts-node scripts/verify-merkle-root.ts --input scripts/result/result.json",
+    "generate": "ts-node scripts/generate-merkle-root.ts --input ./claims.json",
+    "verify": "ts-node scripts/verify-merkle-root.ts --input ./result.json",
     "prepublishOnly": "yarn test"
   }
 }
