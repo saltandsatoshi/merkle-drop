@@ -14,8 +14,6 @@ const overrides = {
 }
 
 const ZERO_BYTES32 = '0x0000000000000000000000000000000000000000000000000000000000000000'
-const StartTime = 1607495500;
-const EndTime = 1616630400;
 
 describe('MerkleDistributor', () => {
   const provider = new MockProvider({
@@ -31,6 +29,7 @@ describe('MerkleDistributor', () => {
 
   let token: Contract
   beforeEach('deploy token', async () => {
+    
     token = await deployContract(wallet0, TestERC20, ['Token', 'TKN', 0], overrides)
   })
 
