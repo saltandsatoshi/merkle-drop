@@ -1,7 +1,7 @@
 {
   "name": "merkle-drop",
   "version": "1.0.1",
-  "description": "",
+  "description": "Merkle drop for $SALTY initial distribution",
   "authors": "Carl and Uni",
   "license": "MIT",
   "main": "index.ts",
@@ -38,7 +38,7 @@
     "pretest": "yarn compile",
     "test": "mocha",
     "start": "ts-node ./index.ts",
-    "generate": "ts-node scripts/generate-merkle-root.ts --input scripts/claims/claims.json",
+    "generate": "ts-node scripts/generate-merkle-root.ts --input scripts/claims.json",
     "verify": "ts-node scripts/verify-merkle-root.ts --input scripts/result/result.json",
     "prepublishOnly": "yarn test"
   }
