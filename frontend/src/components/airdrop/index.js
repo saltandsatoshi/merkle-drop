@@ -36,7 +36,6 @@ class Airdrop extends Component {
       isDropdownOpen: false,
       account: null,
       day: 0,
-      percentage: 0,
       unclaimed: 0,
       reward: 0,
       claimable: 0,
@@ -56,9 +55,9 @@ class Airdrop extends Component {
   componentDidMount() {
     this.START();
 
-    // this.onAccountChange();
-    // this.onNetworkChange();
-    // this.setConnection();
+    this.onAccountChange();
+    this.onNetworkChange();
+    this.setConnection();
 
     // let now = new Date().getTime();
     // let startCountdown = this.merkle.startTimestamp * 1000;
@@ -86,7 +85,7 @@ class Airdrop extends Component {
     //     }
     //   }, 1000);
     // } else {
-    //   this.setState({ isAirdropLive: true });
+    this.setState({ isAirdropLive: true });
     // }
   }
 
@@ -204,17 +203,6 @@ class Airdrop extends Component {
     ) {
       this.setState({ isEligible: true });
     }
-
-    let currentTimestamp = Math.round(Date.now() / 1000);
-    let daysPassed =
-      Math.round(
-        (currentTimestamp - this.merkle.startTimestamp) / 60 / 60 / 24
-      ) /*- 1*/;
-    let rewardMultiplier = 1;
-
-    let percentageToday = Math.round(rewardMultiplier * 100);
-
-    this.setState({ percentage: percentageToday, day: daysPassed });
 
     if (this.airdropContract != null && this.SALTYContract != null) {
       this.SALTYContract.methods
