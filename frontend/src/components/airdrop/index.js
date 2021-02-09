@@ -11,11 +11,11 @@ import { INFURA_JSON_RPC_API } from '../../connectors'
 import ETHEREUM from '../../services/ethereum'
 
 // * ABI
-import { SALTYABI } from "../../data/abi/SALTYABI";
+import { SALTY_ABI } from "../../data/abi/SALTY_ABI";
 
 // * CONSTANTS
-import { SALTYAddress } from "../../data/constants/constants"
-import { merkle } from "../../data/constants/merkle"
+import { SALTY_Address, SALTY_ABI } from "../../data/constants"
+import { merkle } from "../../data/merkle"
 import SALTY_CONTRACT from '../../services/salty_contract'
 import AIRDROP_CONTRACT from '../../services/airdrop_contract'
 
@@ -45,10 +45,10 @@ class Airdrop extends Component {
       isAirdropLive: false,
       countdownString: "0:0:0",
     };
-    this.SALTYABI = SALTYABI;
+    this.SALTY_ABI = SALTY_ABI;
     this.merkle = merkle;
-    this.SALTYAddress = SALTYAddress;
-    this.SALTYContract = null;
+    this.SALTY_Address = SALTY_Address;
+    this.SALTY_Contract = null;
     this.airdropContract = null;
   }
 
@@ -59,34 +59,7 @@ class Airdrop extends Component {
     this.onNetworkChange();
     this.setConnection();
 
-    // let now = new Date().getTime();
-    // let startCountdown = this.merkle.startTimestamp * 1000;
-    // let self = this;
-    // if (startCountdown > now) {
-    //   let countdownInterval = setInterval(function () {
-    //     let now = new Date().getTime();
-    //     let distance = startCountdown - now;
-
-    //     let hours = Math.floor(
-    //       (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    //     );
-    //     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    //     let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    //     hours = hours < 10 ? "0" + hours : hours;
-    //     minutes = minutes < 10 ? "0" + minutes : minutes;
-    //     seconds = seconds < 10 ? "0" + seconds : seconds;
-
-    //     let calculatedCountdownString = hours + ":" + minutes + ":" + seconds;
-    //     self.setState({ countdownString: calculatedCountdownString });
-
-    //     if (distance < 0) {
-    //       self.setState({ isAirdropLive: true });
-    //       clearInterval(countdownInterval);
-    //     }
-    //   }, 1000);
-    // } else {
     this.setState({ isAirdropLive: true });
-    // }
   }
 
   START() {
@@ -100,13 +73,13 @@ class Airdrop extends Component {
     });
 
     const provider = ETHEREUM.getJsonRpcProvider(INFURA_JSON_RPC_API[chainId], chainId);
-    this.SALTYContract = SALTY_CONTRACT.getContract(this.SALTYAddress, provider)
+    this.SALTY_Contract = SALTY_CONTRACT.getContract(this.SALTY_Address, provider)
 
     const signer = library.getSigner(account)
     this.airdropContract = AIRDROP_CONTRACT.getContract(signer)
 
     this.getAirdropStats();
-    // this.statsInterval = setInterval(() => {
+    // this. = setInterval(() => {
     //   this.getAirdropStats();
     // }, 10000);
   }
@@ -159,30 +132,30 @@ class Airdrop extends Component {
   };
 
   connectMainnet = async (accounts) => {
-    await this.web3?.eth?.getChainId().then((x) => {
+    await this.web3.eth.getChainId().then((x) => {
       if (x === 1) {
         this.setState({ account: accounts[0].toString(), isConnected: true });
 
-        this.SALTYContract = new this.web3.eth.Contract(this.SALTYABI, this.SALTYAddress);
-        this.airdropContract = new this.web3.eth.Contract(this.merkle.contractABI, this.merkle.contractAddress);
+        this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_Address);
+        this.airdropContract = new this.web3.eth.Contract(this.merkle.SALTY_ABI, this.merkle.SALTY_Address);
 
         this.getAirdropStats();
         var self = this;
-        this.statsInterval = setInterval(function () {
+        this. = setInterval(function () {
           self.getAirdropStats();
         }, 10000);
       } else if (x === 4) {
         this.setState({ account: accounts[0].toString(), isConnected: true });
 
-        this.SALTYContract = new this.web3.eth.Contract(this.SALTYABI, this.SALTYAddress);
+        this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_Address);
         this.airdropContract = new this.web3.eth.Contract(
-          this.merkle.contractABI,
-          this.merkle.contractAddress
+          this.merkle.SALTY_ABI,
+          this.merkle.SALTY_Address
         );
 
         this.getAirdropStats();
         var self = this;
-        this.statsInterval = setInterval(function () {
+        this. = setInterval(function () {
           self.getAirdropStats();
         }, 10000);
       }
@@ -204,13 +177,14 @@ class Airdrop extends Component {
       this.setState({ isEligible: true });
     }
 
-    if (this.airdropContract != null && this.SALTYContract != null) {
-      this.SALTYContract.methods
-        .balanceOf(this.merkle.contractAddress)
+    if (this.airdropContract != null && this.SALTY_Contract != null) {
+      this.SALTY_Contract.methods
+        .balanceOf(this.merkle.SALTY_Address)
         .call()
         .then((result) => {
           this.setState({
-            unclaimed: parseFloat(this.web3.utils.fromWei(result, "ether")),
+            // TODO: check below
+            unclaimed: parseFloat(this.web3.utils.fromWei(result, "ether") / 138),
           });
         });
 
@@ -413,15 +387,6 @@ class Airdrop extends Component {
                     Please, connect wallet to continue...
                   </div>
                 )
-              ) : (
-                <>
-                  <div className="claim-item">
-                    <div className="title">The airdrop starts in</div>
-                    <div className="title" id="countdownToStart">
-                      {this.state.countdownString}
-                    </div>
-                  </div>
-                </>
               )}
             </div>
           </div>

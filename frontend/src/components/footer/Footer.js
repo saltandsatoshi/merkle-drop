@@ -9,20 +9,20 @@ class Footer extends Component {
     return (
       <div className="footer-bar">
         <div className="footer-container">
-          {/* <div className="upper">
+          <div className="upper">
             <div className="navigation">
               <div className="item">
                 <div className="header">Applications</div>
-                <a href="https://shop.metafactory.ai">Shop</a>
+                <a href="https://saltandsatoshi.com/">Home</a>
               </div>
               <div className="item">
                 <div className="header">Social</div>
-                <a href="https://discord.gg/syk4SWmUPu">Discord</a>
-                <a href="https://twitter.com/MetaFactory">Twitter</a>
+                <a href="https://discord.gg/D4T9PMK9F9">Discord</a>
+                <a href="https://twitter.com/saltandsatoshi">Twitter</a>
               </div>
               <div className="item">
                 <div className="header">Resources</div>
-                <a href="https://gov.metafactory.ai/">Forum</a>
+                <a href="https://saltandsatoshi.com/#blog">Blog</a>
               </div>
             </div>
             <div className="media">
@@ -40,7 +40,7 @@ class Footer extends Component {
                 ))}
               </div>
             </div>
-          </div> */}
+          </div>
           <div className="bottom">
             <a href="http://saltandsatoshi.com/">
               <img src={Logo} alt="" className="logo" />
