@@ -1,1 +1,0 @@
-export const SALTYAddress = '0xf157b7ba35089c9b0f02c24bbe1e03855dbe5c1f'; // Mainnet

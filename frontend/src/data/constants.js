@@ -1,4 +1,5 @@
-export const SALTYABI = [{
+export const SALTY_Address = '0xf157b7ba35089c9b0f02c24bbe1e03855dbe5c1f'; // Mainnet
+export const SALTY_ABI = [{
 	"inputs": [],
 	"stateMutability": "nonpayable",
 	"type": "constructor"
