@@ -29,7 +29,7 @@ export default class Routes extends Component {
               />
               <Redirect to={"/404"} />
             </Switch>
-            <Footer />
+            {/* <Footer /> */}
           </OnPageChange>
         </Suspense>
       </BrowserRouter>

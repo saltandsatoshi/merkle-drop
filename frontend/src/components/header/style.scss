@@ -5,7 +5,15 @@
   display: block;
   position: relative;
   z-index: 100;
-  background: transparent;
+  
+  // background: transparent;
+  // background: linear-gradient(
+  //   -180deg,
+  //   rgba(6, 0, 38, 1),
+  //   rgba(0, 0, 0, 0.94)
+  // );
+  padding-top: 2em;
+
   width: 100%;
   @include rwd(1440) {
     width: 100%;
