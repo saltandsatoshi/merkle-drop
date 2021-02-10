@@ -10,7 +10,7 @@ export const INFURA_JSON_RPC_API = {
 }
 const POLLING_INTERVAL = 12000
 
-export const injected = new InjectedConnector({ supportedChainIds: [1, 42] })
+export const injected = new InjectedConnector({ supportedChainIds: [1, 42, 4] })
 
 export const walletconnect = new WalletConnectConnector({
   rpc: { 
