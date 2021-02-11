@@ -1,10 +1,12 @@
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers'
 
-import { merkle } from "../data/merkle"
+// import { merkle } from "../data/merkle"
+
+import { MERKLE_ADDRESS, MERKLE_ABI } from "../data/constants";
 
 export function getContract(providerOrSigner: JsonRpcProvider | JsonRpcSigner) {
-  return new Contract(merkle.SALTY_Address, merkle.SALTY_ABI, providerOrSigner)
+  return new Contract(MERKLE_ADDRESS, MERKLE_ABI, providerOrSigner)
 }
 
 export default { getContract }

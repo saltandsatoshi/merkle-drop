@@ -1,25 +1,21 @@
 import React, { Component } from "react";
 import Web3 from "web3";
 import { toast } from "react-toastify";
-import { ConnectButton } from "./elements";
 
 import { useWeb3React } from '@web3-react/core'
-import { Web3Provider } from '@ethersproject/providers'
-import * as WEB3HOOKS from '../../services/web3_hooks'
 import Connect from '../connect'
 import { INFURA_JSON_RPC_API } from '../../connectors'
 import ETHEREUM from '../../services/ethereum'
 
-// * ABI
-import { SALTY_ABI } from "../../data/abi/SALTY_ABI";
+import { SALTY_ABI, MERKLE_ABI } from "../../data/constants"
 
-// * CONSTANTS
-import { SALTY_Address, SALTY_ABI } from "../../data/constants"
-import { merkle } from "../../data/merkle"
 import SALTY_CONTRACT from '../../services/salty_contract'
 import AIRDROP_CONTRACT from '../../services/airdrop_contract'
 
 import "./style.scss";
+
+import { merkle } from "../../data/merkle";
+require('dotenv').config();
 
 function AirdropWeb3HooksWrapper() {
   const context = useWeb3React()
@@ -42,14 +38,16 @@ class Airdrop extends Component {
       isAirdropClaimed: false,
       //unclaimedAirdrops: false,
       isEligible: false,
-      isAirdropLive: false,
       countdownString: "0:0:0",
     };
+    this.claims = merkle.claims;
     this.SALTY_ABI = SALTY_ABI;
-    this.merkle = merkle;
-    this.SALTY_Address = SALTY_Address;
+    this.MERKLE_ABI = MERKLE_ABI;
+    this.SALTY_ADDRESS = process.env.SALTY_ADDRESS;
+    this.MERKLE_ADDRESS = process.env.MERKLE_ADDRESS
     this.SALTY_Contract = null;
     this.airdropContract = null;
+
   }
 
   componentDidMount() {
@@ -59,7 +57,6 @@ class Airdrop extends Component {
     this.onNetworkChange();
     this.setConnection();
 
-    this.setState({ isAirdropLive: true });
   }
 
   START() {
@@ -73,7 +70,7 @@ class Airdrop extends Component {
     });
 
     const provider = ETHEREUM.getJsonRpcProvider(INFURA_JSON_RPC_API[chainId], chainId);
-    this.SALTY_Contract = SALTY_CONTRACT.getContract(this.SALTY_Address, provider)
+    this.SALTY_Contract = SALTY_CONTRACT.getContract(this.SALTY_ADDRESS, provider)
 
     const signer = library.getSigner(account)
     this.airdropContract = AIRDROP_CONTRACT.getContract(signer)
@@ -136,28 +133,28 @@ class Airdrop extends Component {
       if (x === 1) {
         this.setState({ account: accounts[0].toString(), isConnected: true });
 
-        this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_Address);
-        this.airdropContract = new this.web3.eth.Contract(this.merkle.SALTY_ABI, this.merkle.SALTY_Address);
+        this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_ADDRESS);
+        this.airdropContract = new this.web3.eth.Contract(this.MERKLE_ABI, this.MERKLE_ADDRESS);
 
-        this.getAirdropStats();
-        var self = this;
-        this. = setInterval(function () {
-          self.getAirdropStats();
-        }, 10000);
+        // this.getAirdropStats();
+        // var self = this;
+        // this.statsInterval = setInterval(function () {
+        //   self.getAirdropStats();
+        // }, 10000);
       } else if (x === 4) {
         this.setState({ account: accounts[0].toString(), isConnected: true });
 
-        this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_Address);
+        this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_ADDRESS);
         this.airdropContract = new this.web3.eth.Contract(
-          this.merkle.SALTY_ABI,
-          this.merkle.SALTY_Address
+          this.MERKLE_ABI,
+          this.MERKLE_ADDRESS
         );
 
-        this.getAirdropStats();
-        var self = this;
-        this. = setInterval(function () {
-          self.getAirdropStats();
-        }, 10000);
+        // this.getAirdropStats();
+        // var self = this;
+        // this.statsInterval = setInterval(function () {
+        //   self.getAirdropStats();
+        // }, 10000);
       }
       else {
         this.setState({ account: null });
@@ -167,10 +164,9 @@ class Airdrop extends Component {
   };
 
   getAirdropStats = () => {
-    debugger
-
+    
     if (
-      this.merkle.claims[
+      this.claims[
         this.web3.utils.toChecksumAddress(this.state.account)
       ] != null
     ) {
@@ -179,19 +175,19 @@ class Airdrop extends Component {
 
     if (this.airdropContract != null && this.SALTY_Contract != null) {
       this.SALTY_Contract.methods
-        .balanceOf(this.merkle.SALTY_Address)
+        .balanceOf(this.SALTY_ADDRESS)
         .call()
         .then((result) => {
           this.setState({
             // TODO: check below
-            unclaimed: parseFloat(this.web3.utils.fromWei(result, "ether") / 138),
+            unclaimed: parseFloat(this.web3.utils.fromWei(result, "ether")),
           });
         });
 
       if (this.state.isEligible) {
         this.airdropContract.methods
           .isClaimed(
-            this.merkle.claims[
+            this.claims[
               this.web3.utils.toChecksumAddress(this.state.account)
             ].index
           )
@@ -201,11 +197,11 @@ class Airdrop extends Component {
               isAirdropClaimed: isClaimed,
               claimable: this.roundTo(
                 this.web3.utils.fromWei(
-                  this.merkle.claims[
+                  this.claims[
                     this.web3.utils.toChecksumAddress(this.state.account)
                   ].amount,
                   "ether"
-                ) * rewardMultiplier,
+                ),
                 2
               ),
             });
@@ -214,33 +210,18 @@ class Airdrop extends Component {
      }
   };
 
-  // unclaimedAirdrops = () => {
-  //   if (this.web3 != null && this.airdropContract != null) {
-  //     this.airdropContract.methods
-  //       .isClaimed(
-  //         this.merkle.claims[1]
-  //         )
-  //       .call()
-  //       .then((isClaimed) => {
-  //         this.setState({
-  //           unclaimedAirdrops: isClaimed,
-  //         });
-  //       });
-  //   }
-  // };
-
   claimAirdrop = () => {
     if (this.web3 != null && this.airdropContract != null) {
       this.airdropContract.methods
         .claim(
-          this.merkle.claims[
+          this.claims[
             this.web3.utils.toChecksumAddress(this.state.account)
           ].index,
           this.state.account,
-          this.merkle.claims[
+          this.claims[
             this.web3.utils.toChecksumAddress(this.state.account)
           ].amount,
-          this.merkle.claims[
+          this.claims[
             this.web3.utils.toChecksumAddress(this.state.account)
           ].proof
         )
@@ -344,55 +325,52 @@ class Airdrop extends Component {
 
           <div className="airdrop-details">
             <div className="lower">
-              {this.state.isAirdropLive ? (
-                this.state.isConnected ? (
-                  this.state.isEligible ? (
-                    this.state.isAirdropClaimed ? (
-                      <>
-                        <div className="claim-item">
-                          <div className="title">
-                            You have already claimed your airdrop
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="claim-item">
-                          <div className="title">Claimable $SALTY</div>
-                          <div className="value">
-                            {this.state.claimable.toLocaleString()}
-                          </div>
-                        </div>
-                        <button
-                          className="claim-btn"
-                          onClick={this.claimAirdrop}
-                        >
-                          Claim Airdrop
-                        </button>
-                      </>
-                    )
-                  ) : (
+              { this.state.isConnected ? (
+                this.state.isEligible ? (
+                  this.state.isAirdropClaimed ? (
                     <>
                       <div className="claim-item">
                         <div className="title">
-                          Address Ineligible.
+                          You have already claimed your airdrop
                         </div>
                       </div>
                     </>
+                  ) : (
+                    <>
+                      <div className="claim-item">
+                        <div className="title">Claimable $SALTY</div>
+                        <div className="value">
+                          {this.state.claimable.toLocaleString()}
+                        </div>
+                      </div>
+                      <button
+                        className="claim-btn"
+                        onClick={this.claimAirdrop}
+                      >
+                        Claim Airdrop
+                      </button>
+                    </>
                   )
                 ) : (
-                  <div className="claim-disconnected">
-                    <span>Wallet not connected</span>
-                    <br />
-                    Please, connect wallet to continue...
-                  </div>
+                  <>
+                    <div className="claim-item">
+                      <div className="title">
+                        Address Ineligible.
+                      </div>
+                    </div>
+                  </>
                 )
-              )}
+              ) : (
+                <div className="claim-disconnected">
+                  <span>Wallet not connected</span>
+                  <br />
+                  Please, connect wallet to continue...
+                </div>
+              )
+            }
             </div>
           </div>
         </div>
-        {/* <div className="salty-texture-bg" />
-        <div className="salty-logo-bg" /> */}
       </div>
     );
   }
