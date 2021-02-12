@@ -63,6 +63,7 @@ class Airdrop extends Component {
     this.SALTY_Contract = null;
     this.airdropContract = null;
 
+    this.claimAirdrop = this.claimAirdrop.bind(this)
   }
 
   componentDidMount() {
@@ -219,7 +220,7 @@ class Airdrop extends Component {
 }
 
 async claimAirdrop() {
-  if (this.web3 != null && this.airdropContract != null) {
+  if (this.props.account != "" && this.airdropContract != null) {
     try {
       const transactionResponse = await this.airdropContract
         .claim(
@@ -255,7 +256,7 @@ async claimAirdrop() {
 
       toast.success("Airdrop Claim Successful")
     } catch(err) {
-      toast.error("Transaction Failed: " + err)
+      toast.error(`Transaction Failed: ${err.message}`)
     }
 
     // .on("confirmation", function (confirmationNumber, receipt) {
