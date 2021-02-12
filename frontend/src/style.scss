@@ -14,17 +14,18 @@
 body {
   margin: 0;
   font-family: "Montserrat" !important;
-  background: linear-gradient(
-    -90deg,
-    rgb(11, 1, 69),
-    rgba(57, 52, 161, 0.94)
-  );
+  // background: linear-gradient(
+  //   -90deg,
+  //   rgb(11, 1, 69),
+  //   rgba(57, 52, 161, 0.94)
+  // );
   // background: linear-gradient(
   //   -90deg,
   //   rgba(6, 0, 38, 1),
   //   rgba(0, 0, 0, 0.94)
   // );
-  // background: black
+
+  background: black
 }
 
 :focus {

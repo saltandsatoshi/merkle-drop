@@ -7,10 +7,11 @@ import Connect from '../connect'
 import { INFURA_JSON_RPC_API } from '../../connectors'
 import ETHEREUM from '../../services/ethereum'
 
-import { SALTY_ABI, MERKLE_ABI } from "../../data/constants"
+import { SALTY_ADDRESS, MERKLE_ADDRESS, SALTY_ABI, MERKLE_ABI } from "../../data/constants"
 
 import SALTY_CONTRACT from '../../services/salty_contract'
 import AIRDROP_CONTRACT from '../../services/airdrop_contract'
+import * as WEB3HOOKS from '../../services/web3_hooks'
 
 import "./style.scss";
 
@@ -21,7 +22,21 @@ function AirdropWeb3HooksWrapper() {
   const context = useWeb3React()
   const { connector, chainId, account, library, deactivate, active, error } = context
 
-  return <Airdrop chainId={chainId} account={account} library={library} connector={connector}/>
+  // handle logic to recognize the connector currently being activated
+  const [activatingConnector, setActivatingConnector] = React.useState()
+  React.useEffect(() => {
+    if (activatingConnector && activatingConnector === connector) {
+      setActivatingConnector(undefined)
+    }
+  }, [activatingConnector, connector])
+
+  // handle logic to eagerly connect to the injected ethereum provider, if it exists and has granted access already
+  const triedEager = WEB3HOOKS.useEagerConnect()
+
+  // handle logic to connect in reaction to certain events on the injected ethereum provider, if it exists
+  WEB3HOOKS.useInactiveListener(!triedEager || !!activatingConnector)
+
+  return <Airdrop key={`${account}_${chainId}`} chainId={chainId} account={account} library={library} connector={connector}/>
 } 
 
 class Airdrop extends Component {
@@ -43,8 +58,8 @@ class Airdrop extends Component {
     this.claims = merkle.claims;
     this.SALTY_ABI = SALTY_ABI;
     this.MERKLE_ABI = MERKLE_ABI;
-    this.SALTY_ADDRESS = process.env.SALTY_ADDRESS;
-    this.MERKLE_ADDRESS = process.env.MERKLE_ADDRESS
+    this.SALTY_ADDRESS = SALTY_ADDRESS; // process.env.SALTY_ADDRESS;
+    this.MERKLE_ADDRESS = MERKLE_ADDRESS; // process.env.MERKLE_ADDRESS
     this.SALTY_Contract = null;
     this.airdropContract = null;
 
@@ -53,17 +68,19 @@ class Airdrop extends Component {
   componentDidMount() {
     this.START();
 
-    this.onAccountChange();
-    this.onNetworkChange();
-    this.setConnection();
+    // this.onAccountChange();
+    // this.onNetworkChange();
+    // this.setConnection();
 
   }
 
   START() {
+    console.log(">>> START")
     const { account, chainId, library } = this.props
 
     if (!account) { return }
 
+    console.log(">>> START 2")
     this.setState({ 
       account,
       isConnected: !!account
@@ -99,198 +116,195 @@ class Airdrop extends Component {
     return n;
   };
 
-  getWeb3 = async () => {
-    // Modern dapp browsers...
-    if (window.ethereum) {
-      this.web3 = new Web3(window.ethereum);
-      try {
-        await window.ethereum.enable().then((accounts) => {
-          this.connectMainnet(accounts);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    // Legacy dapp browsers...
-    else if (window.web3) {
-      this.web3 = new Web3(Web3.currentProvider);
-      try {
-        await this.web3.eth.getAccounts().then((accounts) => {
-          this.connectMainnet(accounts);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      toast.error(
-        "Non-Ethereum browser detected. Consider using MetaMask"
-      );
-    }
-  };
+  // getWeb3 = async () => {
+  //   // Modern dapp browsers...
+  //   if (window.ethereum) {
+  //     this.web3 = new Web3(window.ethereum);
+  //     try {
+  //       await window.ethereum.enable().then((accounts) => {
+  //         this.connectMainnet(accounts);
+  //       });
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   // Legacy dapp browsers...
+  //   else if (window.web3) {
+  //     this.web3 = new Web3(Web3.currentProvider);
+  //     try {
+  //       await this.web3.eth.getAccounts().then((accounts) => {
+  //         this.connectMainnet(accounts);
+  //       });
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   } else {
+  //     toast.error(
+  //       "Non-Ethereum browser detected. Consider using MetaMask"
+  //     );
+  //   }
+  // };
 
-  connectMainnet = async (accounts) => {
-    await this.web3.eth.getChainId().then((x) => {
-      if (x === 1) {
-        this.setState({ account: accounts[0].toString(), isConnected: true });
+  // connectMainnet = async (accounts) => {
+  //   await this.web3.eth.getChainId().then((x) => {
+  //     if (x === 1) {
+  //       this.setState({ account: accounts[0].toString(), isConnected: true });
 
-        this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_ADDRESS);
-        this.airdropContract = new this.web3.eth.Contract(this.MERKLE_ABI, this.MERKLE_ADDRESS);
+  //       this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_ADDRESS);
+  //       this.airdropContract = new this.web3.eth.Contract(this.MERKLE_ABI, this.MERKLE_ADDRESS);
 
-        // this.getAirdropStats();
-        // var self = this;
-        // this.statsInterval = setInterval(function () {
-        //   self.getAirdropStats();
-        // }, 10000);
-      } else if (x === 4) {
-        this.setState({ account: accounts[0].toString(), isConnected: true });
+  //       // this.getAirdropStats();
+  //       // var self = this;
+  //       // this.statsInterval = setInterval(function () {
+  //       //   self.getAirdropStats();
+  //       // }, 10000);
+  //     } else if (x === 4) {
+  //       this.setState({ account: accounts[0].toString(), isConnected: true });
 
-        this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_ADDRESS);
-        this.airdropContract = new this.web3.eth.Contract(
-          this.MERKLE_ABI,
-          this.MERKLE_ADDRESS
-        );
+  //       this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_ADDRESS);
+  //       this.airdropContract = new this.web3.eth.Contract(
+  //         this.MERKLE_ABI,
+  //         this.MERKLE_ADDRESS
+  //       );
 
-        // this.getAirdropStats();
-        // var self = this;
-        // this.statsInterval = setInterval(function () {
-        //   self.getAirdropStats();
-        // }, 10000);
-      }
-      else {
-        this.setState({ account: null });
-        toast.error("Connect to Rinkeby or Mainnet");
-      }
-    });
-  };
+  //       // this.getAirdropStats();
+  //       // var self = this;
+  //       // this.statsInterval = setInterval(function () {
+  //       //   self.getAirdropStats();
+  //       // }, 10000);
+  //     }
+  //     else {
+  //       this.setState({ account: null });
+  //       toast.error("Connect to Rinkeby or Mainnet");
+  //     }
+  //   });
+  // };
 
-  getAirdropStats = () => {
-    
+  async getAirdropStats() {
     if (
       this.claims[
-        this.web3.utils.toChecksumAddress(this.state.account)
+        Web3.utils.toChecksumAddress(this.props.account)
       ] != null
     ) {
       this.setState({ isEligible: true });
     }
 
     if (this.airdropContract != null && this.SALTY_Contract != null) {
-      this.SALTY_Contract.methods
-        .balanceOf(this.SALTY_ADDRESS)
-        .call()
-        .then((result) => {
-          this.setState({
-            // TODO: check below
-            unclaimed: parseFloat(this.web3.utils.fromWei(result, "ether")),
-          });
-        });
+      const balance = await this.SALTY_Contract.balanceOf(this.SALTY_ADDRESS)
+      this.setState({
+        // TODO: check below
+        unclaimed: parseFloat(Web3.utils.fromWei(balance.toHexString(), "ether")),
+      });
 
       if (this.state.isEligible) {
-        this.airdropContract.methods
-          .isClaimed(
-            this.claims[
-              this.web3.utils.toChecksumAddress(this.state.account)
-            ].index
-          )
-          .call()
-          .then((isClaimed) => {
-            this.setState({
-              isAirdropClaimed: isClaimed,
-              claimable: this.roundTo(
-                this.web3.utils.fromWei(
-                  this.claims[
-                    this.web3.utils.toChecksumAddress(this.state.account)
-                  ].amount,
-                  "ether"
-                ),
-                2
-              ),
-            });
-          });
-       }
+        const isClaimed = await this.airdropContract.isClaimed(
+          this.claims[
+            Web3.utils.toChecksumAddress(this.props.account)
+          ].index
+        )
+        this.setState({
+          isAirdropClaimed: isClaimed,
+          claimable: this.roundTo(
+            Web3.utils.fromWei(
+              this.claims[
+                Web3.utils.toChecksumAddress(this.props.account)
+              ].amount,
+              "ether"
+            ),
+            2
+          ),
+        });
      }
-  };
+  }
+}
 
-  claimAirdrop = () => {
-    if (this.web3 != null && this.airdropContract != null) {
-      this.airdropContract.methods
+async claimAirdrop() {
+  if (this.web3 != null && this.airdropContract != null) {
+    try {
+      const transactionResponse = await this.airdropContract
         .claim(
           this.claims[
-            this.web3.utils.toChecksumAddress(this.state.account)
+            Web3.utils.toChecksumAddress(this.props.account)
           ].index,
-          this.state.account,
+          this.props.account,
           this.claims[
-            this.web3.utils.toChecksumAddress(this.state.account)
+            Web3.utils.toChecksumAddress(this.props.account)
           ].amount,
           this.claims[
-            this.web3.utils.toChecksumAddress(this.state.account)
+            Web3.utils.toChecksumAddress(this.props.account)
           ].proof
         )
-        .send({
-          from: this.state.account,
-        })
-        .on("error", function (error) {
-          toast.error("Transaction Failed");
-        })
-        .on("transactionHash", function (transactionHash) {
-          toast.info(
-            "Click here to review your claim.",
-            {
-              onClick: function () {
-                window.open(
-                  "https://etherscan.io/tx/" + transactionHash,
-                  "_blank"
-                );
-              },
-            }
-          );
-        })
-        .on("confirmation", function (confirmationNumber, receipt) {
-          toast.success("Airdrop Claim Successful");
-        });
-    }
-  };
 
-  onAccountChange() {
-    window?.ethereum?.on("accountsChanged", (accounts) => {
-      if (
-        accounts.length > 0 &&
-        this.state.account !== accounts[0].toString()
-      ) {
-        this.setState({ account: accounts[0].toString() });
-      } else {
-        this.setState({ account: null });
+      toast.info(
+        "Click here to review your claim.",
+        {
+          onClick: function () {
+            window.open(
+              "https://etherscan.io/tx/" + transactionResponse.hash,
+              "_blank"
+            );
+          },
+        }
+      );
+
+      const transactionReceipt = await transactionResponse.wait(1)
+      if (transactionReceipt.status === 0) { 
+        toast.error('Transaction was reverted')
+        return
       }
-    });
-  }
 
-  onNetworkChange() {
-    window?.ethereum?.on("chainChanged", (chainId) => window.location.reload());
-  }
-
-  setConnection = () => {
-    if (
-      this.state.isConnected &&
-      this.web3.utils.isAddress(this.state.account)
-    ) {
-      this.setState((prevState) => ({
-        isDropdownOpen: !prevState.isDropdownOpen,
-      }));
-    } else {
-      this.getWeb3();
+      toast.success("Airdrop Claim Successful")
+    } catch(err) {
+      toast.error("Transaction Failed: " + err)
     }
-  };
+
+    // .on("confirmation", function (confirmationNumber, receipt) {
+    //   toast.success("Airdrop Claim Successful");
+    // });
+  }
+}
+
+  // onAccountChange() {
+  //   window?.ethereum?.on("accountsChanged", (accounts) => {
+  //     if (
+  //       accounts.length > 0 &&
+  //       this.props.account !== accounts[0].toString()
+  //     ) {
+  //       this.setState({ account: accounts[0].toString() });
+  //     } else {
+  //       this.setState({ account: null });
+  //     }
+  //   });
+  // }
+
+  // onNetworkChange() {
+  //   window?.ethereum?.on("chainChanged", (chainId) => window.location.reload());
+  // }
+
+  // setConnection = () => {
+  //   if (
+  //     this.state.isConnected &&
+  //     Web3.utils.isAddress(this.props.account)
+  //   ) {
+  //     this.setState((prevState) => ({
+  //       isDropdownOpen: !prevState.isDropdownOpen,
+  //     }));
+  //   } else {
+  //     this.getWeb3();
+  //   }
+  // };
 
   render() {
     return (
       <div className="max-width-container">
         <div className="airdrop-container">
           <div className="airdrop-title">
-            <div className="title-text">
+            {/* <div className="title-text">
               <br/><br/><br/>
               <h1>$SALTY Airdrop</h1>
-            </div>
+            </div> */}
             {/* <ConnectButton
-              account={this.state.account}
+              account={this.props.account}
               setConnection={this.setConnection}
             /> */}
             <Connect/>
@@ -343,12 +357,13 @@ class Airdrop extends Component {
                           {this.state.claimable.toLocaleString()}
                         </div>
                       </div>
-                      <button
-                        className="claim-btn"
-                        onClick={this.claimAirdrop}
-                      >
-                        Claim Airdrop
-                      </button>
+                      <ul id="buttons02" className="style1 buttons">
+                        <li>
+                          <a href="#" className="button n01" onClick={this.claimAirdrop}>
+                            <span className="label">Claim Airdrop</span>
+                          </a>
+                        </li>
+                      </ul>
                     </>
                   )
                 ) : (
@@ -376,4 +391,4 @@ class Airdrop extends Component {
   }
 }
 
-export default Airdrop;
+export default AirdropWeb3HooksWrapper;

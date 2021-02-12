@@ -113,7 +113,7 @@
       flex-wrap: wrap;
       align-items: center;
       padding: 25px 0;
-      background-color: #4a8cc9;
+      // background-color: #4a8cc9;
       @include lg {
         padding: 50px 0;
       }
@@ -131,13 +131,14 @@
           }
         }
         & .value {
-          font-size: 28px;
+          font-size: 54px;
           font-weight: 500;
           color: #9afa9a;
           letter-spacing: 1px;
           @include lg {
             font-size: 36px;
           }
+          margin: 1em 0;
         }
       }
       & .claim-btn {
