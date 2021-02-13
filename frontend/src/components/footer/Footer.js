@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import Logo from "../../assets/logos/salty-plain.png";
 import { medias } from "./medias";
-import ReactTypingEffect from "react-typing-effect";
 import "./style.scss";
 
 class Footer extends Component {
@@ -45,33 +44,6 @@ class Footer extends Component {
             <a href="http://saltandsatoshi.com/">
               <img src={Logo} alt="" className="logo" />
             </a>
-            <div className="footer-typer-container">
-              {/* <ReactTypingEffect
-                text={[
-                  "Welcome",
-                ]}
-                cursorRenderer={(cursor) => (
-                  <span className="footer-typer-cursor">{cursor}</span>
-                )}
-                displayTextRenderer={(text, i) => {
-                  return (
-                    <div className="footer-typer-text">
-                      {text.split("").map((char, index) => {
-                        return (
-                          <span key={index}>
-                            {char !== "_" ? (
-                              char
-                            ) : (
-                              <span className="typer-text-space" />
-                            )}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  );
-                }}
-              /> */}
-            </div>
           </div>
         </div>
       </div>

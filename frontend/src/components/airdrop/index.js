@@ -36,7 +36,6 @@ class Airdrop extends Component {
       reward: 0,
       claimable: 0,
       isAirdropClaimed: false,
-      //unclaimedAirdrops: false,
       isEligible: false,
       countdownString: "0:0:0",
     };
@@ -130,36 +129,15 @@ class Airdrop extends Component {
 
   connectMainnet = async (accounts) => {
     await this.web3.eth.getChainId().then((x) => {
+
       if (x === 1) {
         this.setState({ account: accounts[0].toString(), isConnected: true });
-
-        this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_ADDRESS);
-        this.airdropContract = new this.web3.eth.Contract(this.MERKLE_ABI, this.MERKLE_ADDRESS);
-
-        // this.getAirdropStats();
-        // var self = this;
-        // this.statsInterval = setInterval(function () {
-        //   self.getAirdropStats();
-        // }, 10000);
-      } else if (x === 4) {
-        this.setState({ account: accounts[0].toString(), isConnected: true });
-
-        this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_ADDRESS);
-        this.airdropContract = new this.web3.eth.Contract(
-          this.MERKLE_ABI,
-          this.MERKLE_ADDRESS
-        );
-
-        // this.getAirdropStats();
-        // var self = this;
-        // this.statsInterval = setInterval(function () {
-        //   self.getAirdropStats();
-        // }, 10000);
-      }
-      else {
+      } else {
         this.setState({ account: null });
-        toast.error("Connect to Rinkeby or Mainnet");
+        toast.error("Connect to Mainnet, ya ape");
       }
+      this.SALTY_Contract = new this.web3.eth.Contract(this.SALTY_ABI, this.SALTY_ADDRESS);
+      this.airdropContract = new this.web3.eth.Contract(this.MERKLE_ABI, this.MERKLE_ADDRESS);
     });
   };
 
@@ -295,21 +273,13 @@ class Airdrop extends Component {
             /> */}
             <Connect/>
           </div>
-          {/* <div className="airdrop-subtitle">
-            <span>Airdrop Day: </span>
-            {this.state.day}
-          </div>
           <div className="airdrop-subtitle">
             <span>Unclaimed $SALTY: </span>
             {this.state.unclaimed.toLocaleString()}
           </div>
           <div className="airdrop-subtitle">
-            <span>Unclaimed Drops: </span>
-            {this.state.unclaimedAirdrops}
-          </div> 
-          <div className="airdrop-subtitle">
             <a
-              href="https://rinkeby.etherscan.io/address/0xd1666190bE4fC9842b12397047B9B8Ad3A5D48c4#code"
+              href="https://etherscan.io/address/0xd1666190bE4fC9842b12397047B9B8Ad3A5D48c4#code"
               rel="noreferrer"
               target="_blank"
               style={{
