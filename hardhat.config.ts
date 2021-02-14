@@ -2,10 +2,12 @@ import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-truffle5";
 import "@nomiclabs/hardhat-web3";
 
+require("dotenv").config();
+
 module.exports = {
     solidity: {
         compilers: [
-            {version: "0.7.4"}
+            {version: "0.6.2"}
         ]
     },
     networks: {

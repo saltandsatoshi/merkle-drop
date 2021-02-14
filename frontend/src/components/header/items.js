@@ -1,5 +1,5 @@
 export const contract = {
-	to: 'https://rinkeby.etherscan.io/address/0xd1666190bE4fC9842b12397047B9B8Ad3A5D48c4#code',
+	to: 'https://etherscan.io/address/0xf157b7ba35089c9b0f02c24bbe1e03855dbe5c1f',
 	title: 'Contract',
 };
 
