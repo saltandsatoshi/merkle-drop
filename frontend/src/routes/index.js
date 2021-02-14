@@ -18,7 +18,8 @@ export default class Routes extends Component {
       <BrowserRouter>
         <Suspense fallback={<Loader />}>
           <OnPageChange>
-            <Header />
+            {/* <Header /> */}
+
             <Switch>
               <Route exact path={"/"} component={ Airdrop } />
               <Route
@@ -29,6 +30,7 @@ export default class Routes extends Component {
               />
               <Redirect to={"/404"} />
             </Switch>
+            
             {/* <Footer /> */}
           </OnPageChange>
         </Suspense>

@@ -19,7 +19,7 @@ require('dotenv').config();
 
 function AirdropWeb3HooksWrapper() {
   const context = useWeb3React()
-  const { connector, chainId, account, library, deactivate, active, error } = context
+  const { connector, chainId, account, library } = context
 
   return <Airdrop chainId={chainId} account={account} library={library} connector={connector}/>
 } 
@@ -75,9 +75,6 @@ class Airdrop extends Component {
     this.airdropContract = AIRDROP_CONTRACT.getContract(signer)
 
     this.getAirdropStats();
-    // this. = setInterval(() => {
-    //   this.getAirdropStats();
-    // }, 10000);
   }
 
   roundTo = (n, digits) => {
