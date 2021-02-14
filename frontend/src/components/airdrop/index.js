@@ -185,7 +185,7 @@ class Airdrop extends Component {
      }
   };
 
-  claimAirdrop = () => {
+  claimAirdrop = async () => {
     if (this.web3 != null && this.airdropContract != null) {
       this.airdropContract.methods
         .claim(
