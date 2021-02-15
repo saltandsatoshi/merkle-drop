@@ -7,12 +7,12 @@ This repo contains scripts + data used to merkle drop $SALTY to the earliest com
 ### Todo
 * [x] Add addresses with claimable balances
 * [x] Update images and spinning gif to `frontend/public/manifest.json`
-* [ ] Update `frontend/src/data/constants.js`
-* [ ] Update `frontend/src/components/airdrop/index.js`
+* [x] Update `frontend/src/data/constants.js`
+* [x] Update `frontend/src/components/airdrop/index.js`
 * [x] Update `frontend/src/components/footer/medias.js`
 * [x] Update sources on `frontend/src/components/footer/Footer.js`
 * [x] Update sources on `frontend/src/services/airdrop_contract.ts`
 * [x] Add relevant sources to `frontend/src/components/footer/medias.js`
 * [x] Update imports using dotenv & .env
-* [ ] Deploy contracts
+* [x] Deploy contracts
 * [ ] Host on github pages
