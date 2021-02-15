@@ -315,7 +315,7 @@ export const SALTY_ABI = [{
 	"type": "function"
 }]
 
-export const MERKLE_ADDRESS = '0x282717468C9c28e76C57122aCee6Ea89B8AC6d1D';
+export const MERKLE_ADDRESS = '0x7daFEB1ceE5a14Ab5666729044aCb5f46506DCa1';
 export const MERKLE_ABI = [
 	{
 		"inputs": [
