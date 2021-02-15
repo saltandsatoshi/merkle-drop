@@ -80,8 +80,6 @@ class Airdrop extends Component {
     const { account, chainId, library } = this.props
 
     if (!account) { return }
-
-    console.log(">>> START 2")
     this.setState({ 
       account,
       isConnected: !!account
@@ -191,6 +189,7 @@ class Airdrop extends Component {
     }
 
     if (this.airdropContract != null && this.SALTY_Contract != null) {
+      // console.log(">>> STARTa")
       const balance = await this.SALTY_Contract.balanceOf(this.SALTY_ADDRESS)
       this.setState({
         // TODO: check below
@@ -198,6 +197,7 @@ class Airdrop extends Component {
       });
 
       if (this.state.isEligible) {
+        // console.log(">>> STARTb")
         const isClaimed = await this.airdropContract.isClaimed(
           this.claims[
             Web3.utils.toChecksumAddress(this.props.account)

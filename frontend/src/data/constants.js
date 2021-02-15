@@ -1,4 +1,4 @@
-export const SALTY_ADDRESS = '0xa7419abeb192c2f113bbceb35884821d73c5cb63';
+export const SALTY_ADDRESS = '0xf157b7ba35089c9b0f02c24bbe1e03855dbe5c1f';
 export const SALTY_ABI = [{
 	"inputs": [],
 	"stateMutability": "nonpayable",
@@ -315,7 +315,7 @@ export const SALTY_ABI = [{
 	"type": "function"
 }]
 
-export const MERKLE_ADDRESS = '0x282717468C9c28e76C57122aCee6Ea89B8AC6d1D';
+export const MERKLE_ADDRESS = '0x7dafeb1cee5a14ab5666729044acb5f46506dca1';
 export const MERKLE_ABI = [
 	{
 		"inputs": [
